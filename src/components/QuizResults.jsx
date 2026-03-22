@@ -2,7 +2,20 @@ import React from "react";
 import HotelCard from "./HotelCard";
 import RouteCard from "./RouteCard";
 
-const ALL_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const ALL_MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 /** Returns match quality label based on percentage */
 function matchLabel(pct, { strongMatch, greatMatch, goodMatch }) {
@@ -26,13 +39,25 @@ function ComparisonTable({ tops, ans, i18n, LOCATION_META, getFlightTime }) {
   const headers = [
     { label: "Country", fn: (b) => b.country },
     { label: "Terrain", fn: (b) => b.terrain },
-    { label: "✈ Flight time", fn: (b) => getFlightTime(ans.from || "", b.name) || "—" },
+    {
+      label: "✈ Flight time",
+      fn: (b) => getFlightTime(ans.from || "", b.name) || "—",
+    },
     { label: "Difficulty", fn: (b) => b.difficulty },
-    { label: "Best months", fn: (b) => (b.months || []).slice(0, 4).join(", ") },
+    {
+      label: "Best months",
+      fn: (b) => (b.months || []).slice(0, 4).join(", "),
+    },
     { label: "Road quality", fn: (b) => b.roadQuality || "—" },
     { label: "Traffic", fn: (b) => b.traffic || "—" },
-    { label: "Stay zone", fn: (b) => (LOCATION_META[b.name] || {}).stayZone || "—" },
-    { label: "Bike hire", fn: (b) => (LOCATION_META[b.name] || {}).bikeAnchor || "—" },
+    {
+      label: "Stay zone",
+      fn: (b) => (LOCATION_META[b.name] || {}).stayZone || "—",
+    },
+    {
+      label: "Bike hire",
+      fn: (b) => (LOCATION_META[b.name] || {}).bikeAnchor || "—",
+    },
     { label: "Airport", fn: (b) => b.airport || "—" },
   ];
 
@@ -59,16 +84,41 @@ function ComparisonTable({ tops, ans, i18n, LOCATION_META, getFlightTime }) {
         SIDE-BY-SIDE COMPARISON
       </div>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "'DM Mono','Courier New',monospace", fontSize: "12px" }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            fontFamily: "'DM Mono','Courier New',monospace",
+            fontSize: "12px",
+          }}
+        >
           <thead>
             <tr style={{ borderBottom: "1px solid #1a1a18" }}>
-              <td style={{ padding: "12px 20px", color: "#666660", width: "140px" }} />
+              <td
+                style={{
+                  padding: "12px 20px",
+                  color: "#666660",
+                  width: "140px",
+                }}
+              />
               {tops.map((b, i) => (
                 <td
                   key={i}
-                  style={{ padding: "12px 20px", textAlign: "center", borderLeft: "1px solid #1a1a18" }}
+                  style={{
+                    padding: "12px 20px",
+                    textAlign: "center",
+                    borderLeft: "1px solid #1a1a18",
+                  }}
                 >
-                  <div style={{ color: "#e8b84b", fontSize: "11px", marginBottom: "3px" }}>#{i + 1}</div>
+                  <div
+                    style={{
+                      color: "#e8b84b",
+                      fontSize: "11px",
+                      marginBottom: "3px",
+                    }}
+                  >
+                    #{i + 1}
+                  </div>
                   <div
                     style={{
                       fontFamily: "'Playfair Display',Georgia,serif",
@@ -80,7 +130,13 @@ function ComparisonTable({ tops, ans, i18n, LOCATION_META, getFlightTime }) {
                     {b.name}
                   </div>
                   {b.score > 0 && (
-                    <div style={{ fontSize: "10px", color: "#4aaa40", marginTop: "2px" }}>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        color: "#4aaa40",
+                        marginTop: "2px",
+                      }}
+                    >
                       {matchLabel(matchPercent(b.score), i18n)}
                     </div>
                   )}
@@ -94,7 +150,8 @@ function ComparisonTable({ tops, ans, i18n, LOCATION_META, getFlightTime }) {
                 key={ri}
                 style={{
                   borderBottom: "1px solid #111",
-                  background: ri % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
+                  background:
+                    ri % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
                 }}
               >
                 <td
@@ -139,7 +196,13 @@ function WhenToGoCalendar({ b, ans }) {
   const intel = DEST_INTEL[b.name];
 
   return (
-    <div style={{ padding: "16px 28px", background: "#090908", borderBottom: "1px solid #1a1a18" }}>
+    <div
+      style={{
+        padding: "16px 28px",
+        background: "#090908",
+        borderBottom: "1px solid #1a1a18",
+      }}
+    >
       <div
         style={{
           fontFamily: "'DM Mono','Courier New',monospace",
@@ -169,7 +232,11 @@ function WhenToGoCalendar({ b, ans }) {
                 textAlign: "center",
                 padding: "8px 4px",
                 borderRadius: "6px",
-                background: isCurrent ? "#e8b84b" : isGood ? "rgba(74,170,64,0.15)" : "rgba(255,255,255,0.02)",
+                background: isCurrent
+                  ? "#e8b84b"
+                  : isGood
+                    ? "rgba(74,170,64,0.15)"
+                    : "rgba(255,255,255,0.02)",
                 border: `1px solid ${isCurrent ? "#e8b84b" : isGood ? "rgba(74,170,64,0.3)" : "#1a1a18"}`,
               }}
             >
@@ -183,7 +250,13 @@ function WhenToGoCalendar({ b, ans }) {
               >
                 {m}
               </div>
-              <div style={{ fontSize: "8px", marginTop: "2px", color: isCurrent ? "#0a0a08" : isGood ? "#3a8030" : "#252520" }}>
+              <div
+                style={{
+                  fontSize: "8px",
+                  marginTop: "2px",
+                  color: isCurrent ? "#0a0a08" : isGood ? "#3a8030" : "#252520",
+                }}
+              >
                 {isGood ? "✓" : "—"}
               </div>
             </div>
@@ -224,8 +297,12 @@ function WhenToGoCalendar({ b, ans }) {
           />
           Your selected month
         </span>
-        {intel?.weather && <span style={{ color: "#666" }}>{intel.weather.avgTemp} avg</span>}
-        {meta.months && <span style={{ color: "#7a7a74" }}>Best: {meta.months}</span>}
+        {intel?.weather && (
+          <span style={{ color: "#666" }}>{intel.weather.avgTemp} avg</span>
+        )}
+        {meta.months && (
+          <span style={{ color: "#7a7a74" }}>Best: {meta.months}</span>
+        )}
       </div>
     </div>
   );
@@ -233,7 +310,16 @@ function WhenToGoCalendar({ b, ans }) {
 
 // ─── Intel Tabs ──────────────────────────────────────────────────────────────
 
-function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_META, AIRPORT_INFO, ans }) {
+function IntelTabs({
+  intel,
+  b,
+  expandedIntel,
+  setExpandedIntel,
+  i18n,
+  LOCATION_META,
+  AIRPORT_INFO,
+  ans,
+}) {
   if (!intel) return null;
 
   const current = expandedIntel[b.name] || null;
@@ -246,12 +332,22 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
 
   return (
     <div style={{ borderBottom: "1px solid #1a1a18" }}>
-      <div style={{ display: "flex", gap: "0", overflowX: "auto", padding: "0 28px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "0",
+          overflowX: "auto",
+          padding: "0 28px",
+        }}
+      >
         {tabs.map((t) => (
           <button
             key={t.id}
             onClick={() =>
-              setExpandedIntel((p) => ({ ...p, [b.name]: p[b.name] === t.id ? null : t.id }))
+              setExpandedIntel((p) => ({
+                ...p,
+                [b.name]: p[b.name] === t.id ? null : t.id,
+              }))
             }
             style={{
               fontFamily: "'DM Mono','Courier New',monospace",
@@ -259,7 +355,10 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
               padding: "10px 16px",
               background: "transparent",
               border: "none",
-              borderBottom: current === t.id ? `2px solid ${t.tc}` : "2px solid transparent",
+              borderBottom:
+                current === t.id
+                  ? `2px solid ${t.tc}`
+                  : "2px solid transparent",
               color: current === t.id ? t.tc : "#7a7a74",
               cursor: "pointer",
               whiteSpace: "nowrap",
@@ -267,7 +366,12 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
               transition: "all 0.15s",
             }}
           >
-            <span style={{ filter: current === t.id ? "none" : "grayscale(0.3)", transition: "filter 0.15s" }}>
+            <span
+              style={{
+                filter: current === t.id ? "none" : "grayscale(0.3)",
+                transition: "filter 0.15s",
+              }}
+            >
               {t.icon}
             </span>{" "}
             {t.label}
@@ -279,13 +383,39 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
         <div style={{ padding: "16px 28px", background: "#090908" }}>
           {(() => {
             const slots = [
-              { label: "PRE-RIDE", icon: "🌅", color: "#C9A96E", text: intel.food.preRide },
-              { label: "MID-RIDE", icon: "⚡", color: "#e8b84b", text: intel.food.midRide },
-              { label: "POST-RIDE", icon: "🍷", color: "#2D9B83", text: intel.food.postRide },
-              { label: "LOCAL FUEL", icon: "🥐", color: "#E8944B", text: intel.food.localFuel },
+              {
+                label: "PRE-RIDE",
+                icon: "🌅",
+                color: "#C9A96E",
+                text: intel.food.preRide,
+              },
+              {
+                label: "MID-RIDE",
+                icon: "⚡",
+                color: "#e8b84b",
+                text: intel.food.midRide,
+              },
+              {
+                label: "POST-RIDE",
+                icon: "🍷",
+                color: "#2D9B83",
+                text: intel.food.postRide,
+              },
+              {
+                label: "LOCAL FUEL",
+                icon: "🥐",
+                color: "#E8944B",
+                text: intel.food.localFuel,
+              },
             ];
             return (
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "10px",
+                }}
+              >
                 {slots.map(({ label, icon, color, text }) => (
                   <div
                     key={label}
@@ -296,7 +426,14 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
                       border: `1px solid rgba(${color === "#e8b84b" ? "232,184,75" : color === "#2D9B83" ? "45,155,131" : color === "#E8944B" ? "232,148,75" : "201,169,110"},0.18)`,
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "8px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        marginBottom: "8px",
+                      }}
+                    >
                       <span style={{ fontSize: "13px" }}>{icon}</span>
                       <span
                         style={{
@@ -311,7 +448,15 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
                       </span>
                     </div>
                     {text && (
-                      <p style={{ fontFamily: "Georgia,serif", fontSize: "13px", color: "#888", lineHeight: 1.6, margin: 0 }}>
+                      <p
+                        style={{
+                          fontFamily: "Georgia,serif",
+                          fontSize: "13px",
+                          color: "#888",
+                          lineHeight: 1.6,
+                          margin: 0,
+                        }}
+                      >
                         {text}
                       </p>
                     )}
@@ -324,7 +469,12 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
       )}
 
       {current === "airport" && intel.airport && (
-        <AirportTab intel={intel} b={b} LOCATION_META={LOCATION_META} AIRPORT_INFO={AIRPORT_INFO} />
+        <AirportTab
+          intel={intel}
+          b={b}
+          LOCATION_META={LOCATION_META}
+          AIRPORT_INFO={AIRPORT_INFO}
+        />
       )}
 
       {current === "knowledge" && (
@@ -350,13 +500,27 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
               >
                 LOCAL INSIDER KNOWLEDGE
               </div>
-              <p style={{ fontSize: "14px", color: "#999", lineHeight: 1.75, fontFamily: "Georgia,serif", margin: 0 }}>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#999",
+                  lineHeight: 1.75,
+                  fontFamily: "Georgia,serif",
+                  margin: 0,
+                }}
+              >
                 {intel.localKnowledge}
               </p>
             </div>
           )}
           {intel.weather && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: "8px" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))",
+                gap: "8px",
+              }}
+            >
               {[
                 ["Best months", intel.weather.months],
                 ["Temperature", intel.weather.avgTemp],
@@ -383,7 +547,15 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
                   >
                     {k.toUpperCase()}
                   </div>
-                  <div style={{ fontSize: "13px", color: "#aaa", fontFamily: "Georgia,serif" }}>{v}</div>
+                  <div
+                    style={{
+                      fontSize: "13px",
+                      color: "#aaa",
+                      fontFamily: "Georgia,serif",
+                    }}
+                  >
+                    {v}
+                  </div>
                 </div>
               ))}
             </div>
@@ -412,7 +584,15 @@ function IntelTabs({ intel, b, expandedIntel, setExpandedIntel, i18n, LOCATION_M
             >
               WHAT COULD GO WRONG
             </div>
-            <p style={{ fontSize: "14px", color: "#999", lineHeight: 1.75, fontFamily: "Georgia,serif", margin: 0 }}>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#999",
+                lineHeight: 1.75,
+                fontFamily: "Georgia,serif",
+                margin: 0,
+              }}
+            >
               {intel.warnings}
             </p>
           </div>
@@ -429,13 +609,23 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
     Object.entries(AIRPORT_INFO).find(
       ([k]) =>
         b.name.toLowerCase().includes(k.toLowerCase()) ||
-        k.toLowerCase().includes(b.name.toLowerCase().split(" ")[0].toLowerCase())
+        k
+          .toLowerCase()
+          .includes(b.name.toLowerCase().split(" ")[0].toLowerCase()),
     )?.[1] || null;
   const stayZone = (LOCATION_META[b.name] || {}).stayZone || b.name;
   const bikeAnchor = (LOCATION_META[b.name] || {}).bikeAnchor || "";
 
   return (
-    <div style={{ padding: "16px 28px", background: "#090908", display: "flex", flexDirection: "column", gap: "12px" }}>
+    <div
+      style={{
+        padding: "16px 28px",
+        background: "#090908",
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+      }}
+    >
       {airInfo?.airports?.[0] && (
         <div>
           <div
@@ -483,16 +673,47 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
                     >
                       {ap.name}
                     </div>
-                    <div style={{ fontFamily: "'DM Mono','Courier New',monospace", fontSize: "11px", color: "#4a9eff" }}>
+                    <div
+                      style={{
+                        fontFamily: "'DM Mono','Courier New',monospace",
+                        fontSize: "11px",
+                        color: "#4a9eff",
+                      }}
+                    >
                       {ap.code}
                     </div>
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "12px" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: "10px",
+                    marginBottom: "12px",
+                  }}
+                >
                   {[
-                    { val: ap.distKm + "km", label: "KM FROM STAY ZONE", color: "#4a9eff", bg: "rgba(74,158,255,0.06)", border: "rgba(74,158,255,0.15)" },
-                    { val: ap.transferMins + " min", label: "MIN TRANSFER", color: "#e8b84b", bg: "rgba(232,184,75,0.06)", border: "rgba(232,184,75,0.15)" },
-                    { val: stayZone.split(" ")[0], label: "STAY ZONE", color: "#4aaa40", bg: "rgba(74,170,64,0.06)", border: "rgba(74,170,64,0.15)" },
+                    {
+                      val: ap.distKm + "km",
+                      label: "KM FROM STAY ZONE",
+                      color: "#4a9eff",
+                      bg: "rgba(74,158,255,0.06)",
+                      border: "rgba(74,158,255,0.15)",
+                    },
+                    {
+                      val: ap.transferMins + " min",
+                      label: "MIN TRANSFER",
+                      color: "#e8b84b",
+                      bg: "rgba(232,184,75,0.06)",
+                      border: "rgba(232,184,75,0.15)",
+                    },
+                    {
+                      val: stayZone.split(" ")[0],
+                      label: "STAY ZONE",
+                      color: "#4aaa40",
+                      bg: "rgba(74,170,64,0.06)",
+                      border: "rgba(74,170,64,0.15)",
+                    },
                   ].map(({ val, label, color, bg, border }) => (
                     <div
                       key={label}
@@ -529,7 +750,15 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
                     </div>
                   ))}
                 </div>
-                <p style={{ fontSize: "13px", color: "#9a9a94", fontFamily: "Georgia,serif", margin: 0, lineHeight: 1.6 }}>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#9a9a94",
+                    fontFamily: "Georgia,serif",
+                    margin: 0,
+                    lineHeight: 1.6,
+                  }}
+                >
                   {ap.notes}
                 </p>
               </div>
@@ -539,7 +768,14 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
       )}
 
       {!airInfo && (
-        <div style={{ background: "#0c0c0b", border: "1px solid rgba(74,158,255,0.15)", borderRadius: "8px", padding: "14px" }}>
+        <div
+          style={{
+            background: "#0c0c0b",
+            border: "1px solid rgba(74,158,255,0.15)",
+            borderRadius: "8px",
+            padding: "14px",
+          }}
+        >
           <div
             style={{
               fontFamily: "'DM Mono','Courier New',monospace",
@@ -551,7 +787,16 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
           >
             PRIMARY AIRPORT
           </div>
-          <p style={{ fontSize: "14px", color: "#ccc", fontFamily: "Georgia,serif", margin: 0 }}>{intel.airport.primary}</p>
+          <p
+            style={{
+              fontSize: "14px",
+              color: "#ccc",
+              fontFamily: "Georgia,serif",
+              margin: 0,
+            }}
+          >
+            {intel.airport.primary}
+          </p>
         </div>
       )}
 
@@ -569,7 +814,14 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
             ALTERNATIVE AIRPORT
           </div>
           {airInfo?.alt?.[0] ? (
-            <div style={{ background: "#0c0c0b", border: "1px solid #1a1a18", borderRadius: "8px", padding: "14px" }}>
+            <div
+              style={{
+                background: "#0c0c0b",
+                border: "1px solid #1a1a18",
+                borderRadius: "8px",
+                padding: "14px",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -581,10 +833,24 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
                 }}
               >
                 <div>
-                  <span style={{ fontFamily: "Georgia,serif", fontSize: "14px", color: "#bbb", fontWeight: "600" }}>
+                  <span
+                    style={{
+                      fontFamily: "Georgia,serif",
+                      fontSize: "14px",
+                      color: "#bbb",
+                      fontWeight: "600",
+                    }}
+                  >
                     {airInfo.alt[0].name}
                   </span>
-                  <span style={{ fontFamily: "'DM Mono','Courier New',monospace", fontSize: "10px", color: "#7a7a74", marginLeft: "8px" }}>
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono','Courier New',monospace",
+                      fontSize: "10px",
+                      color: "#7a7a74",
+                      marginLeft: "8px",
+                    }}
+                  >
                     {airInfo.alt[0].code}
                   </span>
                 </div>
@@ -617,11 +883,36 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
                   </span>
                 </div>
               </div>
-              <p style={{ fontSize: "13px", color: "#666", fontFamily: "Georgia,serif", margin: 0 }}>{airInfo.alt[0].notes}</p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "#666",
+                  fontFamily: "Georgia,serif",
+                  margin: 0,
+                }}
+              >
+                {airInfo.alt[0].notes}
+              </p>
             </div>
           ) : (
-            <div style={{ padding: "12px 14px", background: "#0c0c0b", borderRadius: "6px", border: "1px solid #1a1a18" }}>
-              <p style={{ fontSize: "14px", color: "#9a9a94", fontFamily: "Georgia,serif", margin: 0 }}>{intel.airport.secondary}</p>
+            <div
+              style={{
+                padding: "12px 14px",
+                background: "#0c0c0b",
+                borderRadius: "6px",
+                border: "1px solid #1a1a18",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#9a9a94",
+                  fontFamily: "Georgia,serif",
+                  margin: 0,
+                }}
+              >
+                {intel.airport.secondary}
+              </p>
             </div>
           )}
         </div>
@@ -647,10 +938,23 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
           >
             HOTEL ZONE → AIRPORT
           </div>
-          <p style={{ fontSize: "13px", color: "#9a9a94", fontFamily: "Georgia,serif", margin: 0, lineHeight: 1.6 }}>
-            Stay zone <strong style={{ color: "#bbb" }}>{stayZone}</strong> is approx{" "}
-            <strong style={{ color: "#e8b84b" }}>{airInfo.airports[0].distKm}km / {airInfo.airports[0].transferMins} min</strong>{" "}
-            from {airInfo.airports[0].code}. Allow extra time on race/event days and during peak summer when resort traffic is heavy.
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#9a9a94",
+              fontFamily: "Georgia,serif",
+              margin: 0,
+              lineHeight: 1.6,
+            }}
+          >
+            Stay zone <strong style={{ color: "#bbb" }}>{stayZone}</strong> is
+            approx{" "}
+            <strong style={{ color: "#e8b84b" }}>
+              {airInfo.airports[0].distKm}km /{" "}
+              {airInfo.airports[0].transferMins} min
+            </strong>{" "}
+            from {airInfo.airports[0].code}. Allow extra time on race/event days
+            and during peak summer when resort traffic is heavy.
           </p>
         </div>
       )}
@@ -674,9 +978,25 @@ function AirportTab({ intel, b, LOCATION_META, AIRPORT_INFO, ans }) {
         >
           BIKE TRANSPORT
         </div>
-        <p style={{ fontSize: "13px", color: "#9a9a94", fontFamily: "Georgia,serif", margin: "0 0 6px 0" }}>{intel.airport.bikeNote}</p>
+        <p
+          style={{
+            fontSize: "13px",
+            color: "#9a9a94",
+            fontFamily: "Georgia,serif",
+            margin: "0 0 6px 0",
+          }}
+        >
+          {intel.airport.bikeNote}
+        </p>
         {bikeAnchor && (
-          <p style={{ fontSize: "12px", color: "#7a7a74", fontFamily: "'DM Mono','Courier New',monospace", margin: 0 }}>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#7a7a74",
+              fontFamily: "'DM Mono','Courier New',monospace",
+              margin: 0,
+            }}
+          >
             Local hire: {bikeAnchor}
           </p>
         )}
@@ -758,24 +1078,33 @@ function DestinationCard({
   const pct = matchPercent(b.score);
   const intel = DEST_INTEL[b.name];
   const destSlug = DEST_PAGES.find(
-    (d) => d.title && d.title.toLowerCase().includes(b.name.toLowerCase().split(" ")[0])
+    (d) =>
+      d.title &&
+      d.title.toLowerCase().includes(b.name.toLowerCase().split(" ")[0]),
   );
   const routeSlugs = ROUTE_SEO_PAGES.filter(
-    (r) => r.dest && b.name.toLowerCase().includes(r.dest.toLowerCase().split(" ")[0])
+    (r) =>
+      r.dest &&
+      b.name.toLowerCase().includes(r.dest.toLowerCase().split(" ")[0]),
   );
   const isSaved = savedDests.find((d) => d.name === b.name);
 
   // Build match reasons
   const reasons = [];
   if (ans.terrain && b.terrain) reasons.push(`${b.terrain} terrain matches`);
-  if (ans.month && (b.months || []).includes(ans.month)) reasons.push(`${ans.month} is peak season`);
-  if (ans.ability && b.difficulty) reasons.push(`${b.difficulty} suits ${ans.ability} riders`);
+  if (ans.month && (b.months || []).includes(ans.month))
+    reasons.push(`${ans.month} is peak season`);
+  if (ans.ability && b.difficulty)
+    reasons.push(`${b.difficulty} suits ${ans.ability} riders`);
   if (b.roadQuality === "Excellent") reasons.push("Excellent road quality");
   if (b.traffic === "Low") reasons.push("Low traffic");
-  if (b.loop && (ans.priorities || []).includes("loop")) reasons.push("Loop routes available");
+  if (b.loop && (ans.priorities || []).includes("loop"))
+    reasons.push("Loop routes available");
 
   const jetlag = getJetlagWarning(b.continent, ans.from || "");
-  const showJetlag = jetlag && ["Asia", "Oceania", "North America", "South America"].includes(b.continent);
+  const showJetlag =
+    jetlag &&
+    ["Asia", "Oceania", "North America", "South America"].includes(b.continent);
 
   return (
     <div
@@ -832,7 +1161,14 @@ function DestinationCard({
 
           {/* Name + meta */}
           <div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: "12px",
+                flexWrap: "wrap",
+              }}
+            >
               <h2
                 style={{
                   fontFamily: "'Playfair Display',Georgia,serif",
@@ -850,7 +1186,12 @@ function DestinationCard({
                   href={"#dest-" + destSlug.slug}
                   onClick={(e) => {
                     e.preventDefault();
-                    window.open(window.location.href.split("#")[0] + "#dest-" + destSlug.slug, "_blank");
+                    window.open(
+                      window.location.href.split("#")[0] +
+                        "#dest-" +
+                        destSlug.slug,
+                      "_blank",
+                    );
                   }}
                   title={"Open " + b.name + " destination guide in new window"}
                   style={{
@@ -887,8 +1228,23 @@ function DestinationCard({
                 {b.region} &mdash; {b.country}
               </span>
               {getFlightTime(ans.from || "", b.name) && (
-                <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "#4B9BE8", fontSize: "11px" }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    color: "#4B9BE8",
+                    fontSize: "11px",
+                  }}
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                   </svg>
                   {getFlightTime(ans.from || "", b.name)}
@@ -904,7 +1260,14 @@ function DestinationCard({
         </div>
 
         {/* Action buttons */}
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "6px",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           {b.tag && (
             <span
               style={{
@@ -937,7 +1300,7 @@ function DestinationCard({
                 >
                   {t}
                 </span>
-              )
+              ),
           )}
 
           {/* Not this one */}
@@ -948,8 +1311,11 @@ function DestinationCard({
               fontFamily: "'DM Mono','Courier New',monospace",
               fontSize: "10px",
               color: whyNotIdx === idx ? "#db7b7b" : "#444",
-              background: whyNotIdx === idx ? "rgba(219,123,123,0.08)" : "transparent",
-              border: "1px solid " + (whyNotIdx === idx ? "rgba(219,123,123,0.3)" : "#1e1e1c"),
+              background:
+                whyNotIdx === idx ? "rgba(219,123,123,0.08)" : "transparent",
+              border:
+                "1px solid " +
+                (whyNotIdx === idx ? "rgba(219,123,123,0.3)" : "#1e1e1c"),
               borderRadius: "4px",
               padding: "4px 10px",
               cursor: "pointer",
@@ -985,8 +1351,11 @@ function DestinationCard({
                 fontFamily: "'DM Mono','Courier New',monospace",
                 fontSize: "11px",
                 color: isSaved ? "#e8b84b" : "#888",
-                background: isSaved ? "rgba(232,184,75,0.12)" : "rgba(255,255,255,0.04)",
-                border: "1px solid " + (isSaved ? "rgba(232,184,75,0.4)" : "#2a2a28"),
+                background: isSaved
+                  ? "rgba(232,184,75,0.12)"
+                  : "rgba(255,255,255,0.04)",
+                border:
+                  "1px solid " + (isSaved ? "rgba(232,184,75,0.4)" : "#2a2a28"),
                 borderRadius: "6px",
                 padding: "6px 13px",
                 cursor: "pointer",
@@ -994,13 +1363,19 @@ function DestinationCard({
                 fontWeight: isSaved ? "700" : "400",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = isSaved ? "rgba(232,184,75,0.2)" : "rgba(232,184,75,0.08)";
+                e.currentTarget.style.background = isSaved
+                  ? "rgba(232,184,75,0.2)"
+                  : "rgba(232,184,75,0.08)";
                 e.currentTarget.style.borderColor = "rgba(232,184,75,0.4)";
                 e.currentTarget.style.color = "#e8b84b";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = isSaved ? "rgba(232,184,75,0.12)" : "rgba(255,255,255,0.04)";
-                e.currentTarget.style.borderColor = isSaved ? "rgba(232,184,75,0.4)" : "#2a2a28";
+                e.currentTarget.style.background = isSaved
+                  ? "rgba(232,184,75,0.12)"
+                  : "rgba(255,255,255,0.04)";
+                e.currentTarget.style.borderColor = isSaved
+                  ? "rgba(232,184,75,0.4)"
+                  : "#2a2a28";
                 e.currentTarget.style.color = isSaved ? "#e8b84b" : "#888";
               }}
             >
@@ -1013,7 +1388,9 @@ function DestinationCard({
           <div style={{ position: "relative", display: "inline-flex" }}>
             <button
               className="calendar-btn"
-              onClick={() => setShowWhenToGo(showWhenToGo === b.name ? null : b.name)}
+              onClick={() =>
+                setShowWhenToGo(showWhenToGo === b.name ? null : b.name)
+              }
               title={`Best months to ride ${b.name}`}
               style={{
                 display: "flex",
@@ -1022,8 +1399,15 @@ function DestinationCard({
                 fontFamily: "'DM Mono','Courier New',monospace",
                 fontSize: "11px",
                 color: showWhenToGo === b.name ? "#2D9B83" : "#888",
-                background: showWhenToGo === b.name ? "rgba(45,155,131,0.12)" : "rgba(255,255,255,0.04)",
-                border: "1px solid " + (showWhenToGo === b.name ? "rgba(45,155,131,0.4)" : "#2a2a28"),
+                background:
+                  showWhenToGo === b.name
+                    ? "rgba(45,155,131,0.12)"
+                    : "rgba(255,255,255,0.04)",
+                border:
+                  "1px solid " +
+                  (showWhenToGo === b.name
+                    ? "rgba(45,155,131,0.4)"
+                    : "#2a2a28"),
                 borderRadius: "6px",
                 padding: "6px 13px",
                 cursor: "pointer",
@@ -1054,7 +1438,13 @@ function DestinationCard({
 
       {/* ── Why not panel ── */}
       {whyNotIdx === idx && (
-        <div style={{ padding: "14px 28px", background: "rgba(219,123,123,0.04)", borderBottom: "1px solid rgba(219,123,123,0.15)" }}>
+        <div
+          style={{
+            padding: "14px 28px",
+            background: "rgba(219,123,123,0.04)",
+            borderBottom: "1px solid rgba(219,123,123,0.15)",
+          }}
+        >
           <div
             style={{
               fontFamily: "'DM Mono','Courier New',monospace",
@@ -1067,12 +1457,21 @@ function DestinationCard({
             WHAT PUTS YOU OFF {b.name.toUpperCase()}?
           </div>
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-            {["Too far to fly", "Too expensive", "Already been", "Wrong climate", "Wrong terrain", "Too busy"].map((reason) => (
+            {[
+              "Too far to fly",
+              "Too expensive",
+              "Already been",
+              "Wrong climate",
+              "Wrong terrain",
+              "Too busy",
+            ].map((reason) => (
               <button
                 key={reason}
                 onClick={() => {
                   setWhyNotIdx(null);
-                  showToast(`Got it · we'll factor "${reason}" into future matches`);
+                  showToast(
+                    `Got it · we'll factor "${reason}" into future matches`,
+                  );
                 }}
                 style={{
                   background: "transparent",
@@ -1086,8 +1485,12 @@ function DestinationCard({
                   letterSpacing: "0.5px",
                   transition: "all 0.15s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(219,123,123,0.1)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "rgba(219,123,123,0.1)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "transparent")
+                }
               >
                 {reason}
               </button>
@@ -1161,7 +1564,15 @@ function DestinationCard({
               >
                 JETLAG NOTE:
               </span>
-              <span style={{ fontFamily: "Georgia,serif", fontSize: "13px", color: "#666" }}>{jetlag.msg}</span>
+              <span
+                style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "13px",
+                  color: "#666",
+                }}
+              >
+                {jetlag.msg}
+              </span>
             </div>
           )}
         </div>
@@ -1274,7 +1685,11 @@ function DestinationCard({
       {/* ── Content grid ── */}
       <div
         className="results-grid"
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid #2e2e2b" }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          borderTop: "1px solid #2e2e2b",
+        }}
       >
         {/* LEFT: Overview + Routes */}
         <div style={{ padding: "24px 28px", borderRight: "1px solid #2e2e2b" }}>
@@ -1291,7 +1706,15 @@ function DestinationCard({
               >
                 ABOUT THIS DESTINATION
               </div>
-              <p style={{ fontSize: "16px", color: "#aaa", lineHeight: 1.75, fontFamily: "Georgia,serif", margin: 0 }}>
+              <p
+                style={{
+                  fontSize: "16px",
+                  color: "#aaa",
+                  lineHeight: 1.75,
+                  fontFamily: "Georgia,serif",
+                  margin: 0,
+                }}
+              >
                 {routeLinks.overview}
               </p>
             </div>
@@ -1318,7 +1741,9 @@ function DestinationCard({
               >
                 FURTHER READING
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+              >
                 {routeLinks.articles.map((a, ai) => (
                   <a
                     key={ai}
@@ -1336,7 +1761,9 @@ function DestinationCard({
                       lineHeight: 1.4,
                       transition: "color 0.15s",
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = "#e8b84b")}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.color = "#e8b84b")
+                    }
                     onMouseOut={(e) => (e.currentTarget.style.color = "#bbb")}
                   >
                     <svg
@@ -1372,83 +1799,104 @@ function DestinationCard({
           </div>
 
           {/* Strava / Komoot explore buttons */}
-          {routeLinks && (routeLinks.stravaExplore || routeLinks.komootCollection) && (
-            <div style={{ display: "flex", gap: "10px", marginBottom: "16px", flexWrap: "wrap" }}>
-              {routeLinks.stravaExplore && (
-                <a
-                  href={routeLinks.stravaExplore}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontFamily: "'DM Mono','Courier New',monospace",
-                    fontSize: "13px",
-                    color: "#fc5200",
-                    textDecoration: "none",
-                    background: "rgba(252,82,0,0.1)",
-                    border: "1px solid rgba(252,82,0,0.35)",
-                    borderRadius: "6px",
-                    padding: "10px 18px",
-                    fontWeight: "600",
-                    letterSpacing: "0.5px",
-                    transition: "all 0.15s",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.background = "rgba(252,82,0,0.18)";
-                    e.currentTarget.style.borderColor = "rgba(252,82,0,0.6)";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.background = "rgba(252,82,0,0.1)";
-                    e.currentTarget.style.borderColor = "rgba(252,82,0,0.35)";
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#fc5200">
-                    <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169" />
-                  </svg>
-                  Explore on Strava
-                </a>
-              )}
-              {routeLinks.komootCollection && (
-                <a
-                  href={routeLinks.komootCollection}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontFamily: "'DM Mono','Courier New',monospace",
-                    fontSize: "13px",
-                    color: "#6db33f",
-                    textDecoration: "none",
-                    background: "rgba(109,179,63,0.1)",
-                    border: "1px solid rgba(109,179,63,0.35)",
-                    borderRadius: "6px",
-                    padding: "10px 18px",
-                    fontWeight: "600",
-                    letterSpacing: "0.5px",
-                    transition: "all 0.15s",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.background = "rgba(109,179,63,0.18)";
-                    e.currentTarget.style.borderColor = "rgba(109,179,63,0.6)";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.background = "rgba(109,179,63,0.1)";
-                    e.currentTarget.style.borderColor = "rgba(109,179,63,0.35)";
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#6db33f">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 8l4 4-4 4-4-4 4-4z" fill="#1a1a18" />
-                  </svg>
-                  Browse on Komoot
-                </a>
-              )}
-            </div>
-          )}
+          {routeLinks &&
+            (routeLinks.stravaExplore || routeLinks.komootCollection) && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  marginBottom: "16px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {routeLinks.stravaExplore && (
+                  <a
+                    href={routeLinks.stravaExplore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontFamily: "'DM Mono','Courier New',monospace",
+                      fontSize: "13px",
+                      color: "#fc5200",
+                      textDecoration: "none",
+                      background: "rgba(252,82,0,0.1)",
+                      border: "1px solid rgba(252,82,0,0.35)",
+                      borderRadius: "6px",
+                      padding: "10px 18px",
+                      fontWeight: "600",
+                      letterSpacing: "0.5px",
+                      transition: "all 0.15s",
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.background = "rgba(252,82,0,0.18)";
+                      e.currentTarget.style.borderColor = "rgba(252,82,0,0.6)";
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.background = "rgba(252,82,0,0.1)";
+                      e.currentTarget.style.borderColor = "rgba(252,82,0,0.35)";
+                    }}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="#fc5200"
+                    >
+                      <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169" />
+                    </svg>
+                    Explore on Strava
+                  </a>
+                )}
+                {routeLinks.komootCollection && (
+                  <a
+                    href={routeLinks.komootCollection}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontFamily: "'DM Mono','Courier New',monospace",
+                      fontSize: "13px",
+                      color: "#6db33f",
+                      textDecoration: "none",
+                      background: "rgba(109,179,63,0.1)",
+                      border: "1px solid rgba(109,179,63,0.35)",
+                      borderRadius: "6px",
+                      padding: "10px 18px",
+                      fontWeight: "600",
+                      letterSpacing: "0.5px",
+                      transition: "all 0.15s",
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(109,179,63,0.18)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(109,179,63,0.6)";
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.background = "rgba(109,179,63,0.1)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(109,179,63,0.35)";
+                    }}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="#6db33f"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 8l4 4-4 4-4-4 4-4z" fill="#1a1a18" />
+                    </svg>
+                    Browse on Komoot
+                  </a>
+                )}
+              </div>
+            )}
 
           {/* AI-generated routes (from routeResult) */}
           {routeData?.routes?.map((route, ri) => (
@@ -1486,10 +1934,14 @@ function DestinationCard({
               >
                 ROUTE MAP
               </div>
-              {renderMap({ destName: b.name, destLat: logDest?.lat || null, destLng: logDest?.lng || null,
+              {renderMap({
+                destName: b.name,
+                destLat: logDest?.lat || null,
+                destLng: logDest?.lng || null,
                 hotels: hotels.filter((h) => h.lat && h.lng),
                 bikeShops: bikeShops.filter((s) => s.lat && s.lng),
-                routes: routeData?.routes || [] })}
+                routes: routeData?.routes || [],
+              })}
             </div>
           )}
 
@@ -1515,7 +1967,15 @@ function DestinationCard({
               >
                 BEST AREA TO STAY
               </div>
-              <div style={{ fontSize: "15px", color: "#ccc", fontFamily: "Georgia,serif" }}>{routeData.stayZone}</div>
+              <div
+                style={{
+                  fontSize: "15px",
+                  color: "#ccc",
+                  fontFamily: "Georgia,serif",
+                }}
+              >
+                {routeData.stayZone}
+              </div>
             </div>
           )}
 
@@ -1575,7 +2035,13 @@ function DestinationCard({
             >
               WHERE TO STAY
             </div>
-            <div style={{ fontFamily: "'DM Mono','Courier New',monospace", fontSize: "10px", color: "#666660" }}>
+            <div
+              style={{
+                fontFamily: "'DM Mono','Courier New',monospace",
+                fontSize: "10px",
+                color: "#666660",
+              }}
+            >
               prices approx &middot; verify before booking
             </div>
           </div>
@@ -1663,7 +2129,13 @@ function DestinationCard({
                     </div>
                   )}
                   {s.services && (
-                    <div style={{ fontFamily: "'DM Mono','Courier New',monospace", fontSize: "11px", color: "#4aaa40" }}>
+                    <div
+                      style={{
+                        fontFamily: "'DM Mono','Courier New',monospace",
+                        fontSize: "11px",
+                        color: "#4aaa40",
+                      }}
+                    >
                       {s.services}
                     </div>
                   )}
@@ -1763,7 +2235,12 @@ export default function QuizResults({
 
   return (
     <div style={{ flex: 1, overflowY: "auto", background: "#080807" }}>
-      <div style={{ padding: "32px 40px", background: "linear-gradient(180deg,#100e09 0%,#080807 120px)" }}>
+      <div
+        style={{
+          padding: "32px 40px",
+          background: "linear-gradient(180deg,#100e09 0%,#080807 120px)",
+        }}
+      >
         {/* Results intro bar */}
         <div
           style={{
@@ -1787,7 +2264,13 @@ export default function QuizResults({
             >
               {i18n.topMatches}
             </h2>
-            <div style={{ fontFamily: "'DM Mono','Courier New',monospace", fontSize: "12px", color: "#7a7a74" }}>
+            <div
+              style={{
+                fontFamily: "'DM Mono','Courier New',monospace",
+                fontSize: "12px",
+                color: "#7a7a74",
+              }}
+            >
               {ans.ability && <span>{ans.ability} cyclist &middot; </span>}
               {ans.month && <span>{ans.month} &middot; </span>}
               {ans.days && <span>{ans.days} days &middot; </span>}
@@ -1808,8 +2291,10 @@ export default function QuizResults({
                   maxWidth: "520px",
                 }}
               >
-                💡 You picked casual fitness but want challenging routes. We&rsquo;ve matched destinations where easier and harder
-                routes share the same base — push yourself on good days, take it easy on others.
+                💡 You picked casual fitness but want challenging routes.
+                We&rsquo;ve matched destinations where easier and harder routes
+                share the same base — push yourself on good days, take it easy
+                on others.
               </div>
             )}
           </div>
@@ -1820,8 +2305,12 @@ export default function QuizResults({
               <button
                 onClick={() => setCompareMode((m) => !m)}
                 style={{
-                  background: compareMode ? "rgba(232,184,75,0.12)" : "transparent",
-                  border: "1px solid " + (compareMode ? "rgba(232,184,75,0.4)" : "#252523"),
+                  background: compareMode
+                    ? "rgba(232,184,75,0.12)"
+                    : "transparent",
+                  border:
+                    "1px solid " +
+                    (compareMode ? "rgba(232,184,75,0.4)" : "#252523"),
                   borderRadius: "6px",
                   padding: "8px 16px",
                   cursor: "pointer",
@@ -1850,8 +2339,12 @@ export default function QuizResults({
                 transition: "all 0.15s",
                 whiteSpace: "nowrap",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(232,184,75,0.12)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(232,184,75,0.06)")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "rgba(232,184,75,0.12)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "rgba(232,184,75,0.06)")
+              }
             >
               {i18n.adjustPrefs}
             </button>
@@ -1875,7 +2368,7 @@ export default function QuizResults({
           const logDest = (logisticsData?.destinations || [])[idx];
           const routeLinks =
             Object.entries(ROUTE_LINKS).find(([k]) =>
-              b.name.toLowerCase().includes(k.toLowerCase())
+              b.name.toLowerCase().includes(k.toLowerCase()),
             )?.[1] || null;
           const hotels = logDest?.hotels || [];
           const bikeShops = logDest?.bikeShops || [];

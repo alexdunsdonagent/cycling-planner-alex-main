@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import QuizStep from './QuizStep';
+import React, { useRef } from "react";
+import QuizStep from "./QuizStep";
 
 // Quiz — top-level quiz orchestrator
 // Props:
@@ -44,17 +44,19 @@ export default function Quiz({
   const Q = STEPS[step - 1];
 
   function setV(id, val) {
-    setCur(p => ({ ...p, [id]: val }));
+    setCur((p) => ({ ...p, [id]: val }));
     // Scroll to next unanswered sub-question in a combo step
-    if (Q && Q.type === 'combo') {
+    if (Q && Q.type === "combo") {
       setTimeout(() => {
         if (!qPanelRef.current) return;
-        const subs = Q.subs.filter(s => s.type !== 'multi2');
-        const currentIdx = subs.findIndex(s => s.id === id);
+        const subs = Q.subs.filter((s) => s.type !== "multi2");
+        const currentIdx = subs.findIndex((s) => s.id === id);
         const nextSub = subs[currentIdx + 1];
         if (nextSub) {
-          const el = qPanelRef.current.querySelector(`[data-sub="${nextSub.id}"]`);
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const el = qPanelRef.current.querySelector(
+            `[data-sub="${nextSub.id}"]`,
+          );
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }, 200);
     }
@@ -84,8 +86,8 @@ export default function Quiz({
       onBack={step > 1 ? handleBack : null}
       onSetNextError={setNextError}
       stepImages={[
-        'https://images.unsplash.com/photo-1502904550040-7534597429ae?w=500&q=80',
-        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80',
+        "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=500&q=80",
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80",
       ]}
     />
   );

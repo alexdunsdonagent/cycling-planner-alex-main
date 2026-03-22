@@ -14,31 +14,31 @@ export default function HotelCard({ hotel: h, style }) {
   const srcColor = isSC
     ? "#9b7ed4"
     : h.source === "Booking.com"
-    ? "#4a9eff"
-    : h.source === "Hotels.com"
-    ? "#ff6b6b"
-    : "#ff8c42";
+      ? "#4a9eff"
+      : h.source === "Hotels.com"
+        ? "#ff6b6b"
+        : "#ff8c42";
   const srcBg = isSC
     ? "rgba(155,126,212,0.1)"
     : h.source === "Booking.com"
-    ? "rgba(74,158,255,0.1)"
-    : h.source === "Hotels.com"
-    ? "rgba(255,107,107,0.1)"
-    : "rgba(255,140,66,0.1)";
+      ? "rgba(74,158,255,0.1)"
+      : h.source === "Hotels.com"
+        ? "rgba(255,107,107,0.1)"
+        : "rgba(255,140,66,0.1)";
   const ctaBg = isSC
     ? "rgba(155,126,212,0.18)"
     : h.source === "Booking.com"
-    ? "rgba(74,158,255,0.18)"
-    : h.source === "Hotels.com"
-    ? "rgba(255,107,107,0.18)"
-    : "rgba(255,140,66,0.18)";
+      ? "rgba(74,158,255,0.18)"
+      : h.source === "Hotels.com"
+        ? "rgba(255,107,107,0.18)"
+        : "rgba(255,140,66,0.18)";
   const ctaBorder = isSC
     ? "rgba(155,126,212,0.5)"
     : h.source === "Booking.com"
-    ? "rgba(74,158,255,0.5)"
-    : h.source === "Hotels.com"
-    ? "rgba(255,107,107,0.5)"
-    : "rgba(255,140,66,0.5)";
+      ? "rgba(74,158,255,0.5)"
+      : h.source === "Hotels.com"
+        ? "rgba(255,107,107,0.5)"
+        : "rgba(255,140,66,0.5)";
 
   const ratingNum = parseFloat((h.rating || "").replace(/[^0-9.]/g, "")) || 0;
   const ratingBg =
@@ -157,7 +157,7 @@ export default function HotelCard({ hotel: h, style }) {
                 >
                   <polygon points="5,1 6.2,3.8 9.5,3.8 6.9,5.7 7.9,9 5,7.1 2.1,9 3.1,5.7 0.5,3.8 3.8,3.8" />
                 </svg>
-              )
+              ),
             )}
             <span
               style={{
@@ -296,7 +296,8 @@ export default function HotelCard({ hotel: h, style }) {
               e.currentTarget.style.transform = "none";
             }}
           >
-            View hotel <span style={{ fontSize: "14px", lineHeight: 1 }}>↗</span>
+            View hotel{" "}
+            <span style={{ fontSize: "14px", lineHeight: 1 }}>↗</span>
           </a>
         ) : null}
       </div>

@@ -11,19 +11,33 @@ import { downloadGpx } from "../utils/gpx";
  *   seoRoutes   — array of ROUTE_SEO_PAGES entries (passed from parent)
  *   style       — extra inline styles (optional)
  */
-export default function RouteCard({ route, destName = "", seoRoutes = [], style }) {
+export default function RouteCard({
+  route,
+  destName = "",
+  seoRoutes = [],
+  style,
+}) {
   if (!route) return null;
 
-  const { name, description, dist, elevation, difficulty, strava, komoot, waypoints = [] } = route;
+  const {
+    name,
+    description,
+    dist,
+    elevation,
+    difficulty,
+    strava,
+    komoot,
+    waypoints = [],
+  } = route;
 
   const diffColor =
     difficulty === "Epic"
       ? "#ff6b6b"
       : difficulty === "Hard"
-      ? "#e8b84b"
-      : difficulty === "Medium-Hard"
-      ? "#c8a838"
-      : "#4aaa40";
+        ? "#e8b84b"
+        : difficulty === "Medium-Hard"
+          ? "#c8a838"
+          : "#4aaa40";
 
   const hasGpx = waypoints && waypoints.length >= 2;
 
@@ -34,7 +48,7 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
       p.title &&
       p.title.toLowerCase().includes(name.toLowerCase().split(" ")[0]) &&
       p.dest &&
-      destName.toLowerCase().includes(p.dest.toLowerCase().split(" ")[0])
+      destName.toLowerCase().includes(p.dest.toLowerCase().split(" ")[0]),
   );
 
   const gpxRoute = hasGpx ? { name: name || "Route", waypoints } : null;
@@ -114,7 +128,14 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
       )}
 
       {/* Stats + actions row */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          flexWrap: "wrap",
+        }}
+      >
         {dist && (
           <span
             style={{
@@ -144,7 +165,14 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
           </span>
         )}
 
-        <div style={{ marginLeft: "auto", display: "flex", gap: "8px", alignItems: "center" }}>
+        <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            gap: "8px",
+            alignItems: "center",
+          }}
+        >
           {/* GPX download */}
           {hasGpx && (
             <button
@@ -172,10 +200,17 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
                 e.currentTarget.style.background = "rgba(109,179,63,0.07)";
               }}
             >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6db33f" strokeWidth="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6db33f"
+                strokeWidth="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
               GPX
             </button>
@@ -209,7 +244,7 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
               }}
             >
               <svg width="10" height="10" viewBox="0 0 24 24" fill="#fc5200">
-                <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+                <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169" />
               </svg>
               Strava
             </a>
@@ -253,8 +288,10 @@ export default function RouteCard({ route, destName = "", seoRoutes = [], style 
               onClick={(e) => {
                 e.preventDefault();
                 window.open(
-                  window.location.href.split("#")[0] + "#route-" + seoRoute.slug,
-                  "_blank"
+                  window.location.href.split("#")[0] +
+                    "#route-" +
+                    seoRoute.slug,
+                  "_blank",
                 );
               }}
               title="Open full route guide in new window"

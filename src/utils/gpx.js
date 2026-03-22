@@ -14,7 +14,7 @@ export function routeToGpx(route) {
       (wp) =>
         `    <trkpt lat="${wp.lat}" lon="${wp.lng}">${
           wp.name ? `\n      <name>${escapeXml(wp.name)}</name>` : ""
-        }</trkpt>`
+        }</trkpt>`,
     )
     .join("\n");
 
