@@ -3172,27 +3172,9 @@ function score(base, a) {
 
   // Continent filter — use continent field on each destination
 
-  if (answers.continent && answers.continent !== 'Any') {
+  if (a.continent && a.continent !== 'Any') {
 
-    if (base.continent !== answers.continent) return -999;
-
-  }
-
-
-
-  // Continent filter — eliminates destinations on wrong continent
-
-  if (answers.continent && answers.continent !== 'Any') {
-
-    if (!destinationMatchesContinent(base, answers.continent)) return -999;
-
-  }
-
-  // Continent filter — eliminates destinations on wrong continent
-
-  if (answers.continent && answers.continent !== 'Any') {
-
-    if (!destinationMatchesContinent(base, answers.continent)) return -999;
+    if (base.continent !== a.continent) return -999;
 
   }
 
