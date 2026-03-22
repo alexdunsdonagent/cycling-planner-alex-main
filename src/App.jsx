@@ -3,6 +3,9 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from "react"
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Quiz from "./components/Quiz.jsx";
+import QuizResults from "./components/QuizResults.jsx";
+import HotelCard from "./components/HotelCard.jsx";
+import RouteCard from "./components/RouteCard.jsx";
 import RouteReviews from "./RouteReviews.jsx";
 
 import GoogleMap from "./GoogleMap.jsx";
