@@ -1,0 +1,225 @@
+#!/usr/bin/env python3
+"""
+Safely extracts static data from App.jsx into src/data/ files.
+App.jsx goes from ~7,100 lines to ~2,500 lines of actual UI code.
+
+Run from project root: python3 extract_data.py
+Restores with:        cp src/App.jsx.pre-extract src/App.jsx && rm -rf src/data/
+"""
+import re, os, shutil, sys
+
+SRC = "src/App.jsx"
+BAK = "src/App.jsx.pre-extract"
+
+# ── Safety check ─────────────────────────────────────────────────
+if not os.path.exists(SRC):
+    sys.exit("❌ src/App.jsx not found — run from project root")
+
+shutil.copy(SRC, BAK)
+print(f"✅ Backed up to {BAK}\n")
+
+with open(SRC, "r", encoding="utf-8") as f:
+    original = f.read()
+
+os.makedirs("src/data", exist_ok=True)
+
+# ─────────────────────────────────────────────────────────────────
+# Core extractor — walks character by character, respects strings
+# ─────────────────────────────────────────────────────────────────
+def extract(src, name):
+    """
+    Find `const NAME = {…};` or `const NAME = […];` and return
+    (the_block_text, src_with_block_removed).
+    """
+    # Find the declaration
+    pat = re.compile(rf'\nconst {re.escape(name)}\s*=\s*')
+    m = pat.search(src)
+    if not m:
+        return None, src
+
+    decl_start = m.start() + 1  # skip the leading \n
+
+    # Find the first { or [
+    pos = m.end()
+    while pos < len(src) and src[pos] not in ('{', '['):
+        pos += 1
+    if pos >= len(src):
+        return None, src
+
+    open_ch  = src[pos]
+    close_ch = ']' if open_ch == '[' else '}'
+    depth    = 0
+    i        = pos
+    in_str   = False
+    str_ch   = None
+
+    while i < len(src):
+        c = src[i]
+        if in_str:
+            if c == '\\':           # escape — skip next char
+                i += 2; continue
+            if c == str_ch:
+                in_str = False
+        else:
+            if c in ('"', "'", '`'):
+                in_str = True; str_ch = c
+            elif c == open_ch:
+                depth += 1
+            elif c == close_ch:
+                depth -= 1
+                if depth == 0:
+                    # Consume optional ;
+                    end = i + 1
+                    if end < len(src) and src[end] == ';':
+                        end += 1
+                    block = src[decl_start:end]
+                    remaining = src[:decl_start] + src[end:]
+                    return block, remaining
+        i += 1
+
+    return None, src   # never reached closing
+
+
+# ─────────────────────────────────────────────────────────────────
+# What to extract and where to put it
+# ─────────────────────────────────────────────────────────────────
+FILES = {
+    "bases.js": {
+        "consts": ["BASES"],
+        "imports": "import { BASES } from './data/bases.js';",
+    },
+    "locationMeta.js": {
+        "consts": ["LOCATION_META", "AIRPORT_INFO"],
+        "imports": "import { LOCATION_META, AIRPORT_INFO } from './data/locationMeta.js';",
+    },
+    "hotels.js": {
+        "consts": ["CURATED_HOTELS"],
+        "imports": "import { CURATED_HOTELS } from './data/hotels.js';",
+    },
+    "scoring.js": {
+        "consts": ["T_SCORE", "A_SCORE", "RQ", "TR", "AP", "KMH", "CLIMB_F", "PATTERNS", "CONTINENT_TZ", "ORIGIN_TZ"],
+        "imports": "import { T_SCORE, A_SCORE, RQ, TR, AP, KMH, CLIMB_F, PATTERNS, CONTINENT_TZ, ORIGIN_TZ } from './data/scoring.js';",
+    },
+    "images.js": {
+        "consts": ["DEST_IMAGES_GALLERY", "TERRAIN_IMAGES"],
+        "imports": "import { DEST_IMAGES_GALLERY, TERRAIN_IMAGES } from './data/images.js';",
+    },
+    "youtube.js": {
+        "consts": ["YT_QUERY_TO_ID", "REGION_YOUTUBE"],
+        "imports": "import { YT_QUERY_TO_ID, REGION_YOUTUBE } from './data/youtube.js';",
+    },
+    "pageData.js": {
+        "consts": ["DEST_PAGES", "ROUTE_SEO_PAGES", "ROUTE_LINKS", "DEST_INTEL", "SAFETY", "SAFETY_LABEL", "SAFETY_COLOR", "LANGS"],
+        "imports": "import { DEST_PAGES, ROUTE_SEO_PAGES, ROUTE_LINKS, DEST_INTEL, SAFETY, SAFETY_LABEL, SAFETY_COLOR, LANGS } from './data/pageData.js';",
+    },
+}
+
+# ─────────────────────────────────────────────────────────────────
+# Run extraction
+# ─────────────────────────────────────────────────────────────────
+src = original
+all_imports = []
+total_extracted = 0
+
+for filename, cfg in FILES.items():
+    blocks = []
+    missing = []
+
+    for name in cfg["consts"]:
+        block, src = extract(src, name)
+        if block:
+            # Make it an export
+            block = re.sub(
+                rf'^const {re.escape(name)}\b',
+                f'export const {name}',
+                block,
+                flags=re.MULTILINE
+            )
+            blocks.append(block.strip())
+            print(f"   ✓  {name}")
+        else:
+            missing.append(name)
+            print(f"   ⚠  {name} — not found, skipping")
+
+    if not blocks:
+        print(f"   ↩  Nothing written to {filename}\n")
+        continue
+
+    # Write the data file
+    content = "// Auto-generated by extract_data.py\n\n" + "\n\n".join(blocks) + "\n"
+    path = f"src/data/{filename}"
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    lines_written = content.count("\n")
+    total_extracted += lines_written
+    print(f"   📄 src/data/{filename} — {lines_written:,} lines\n")
+
+    # Only add import if at least one const was found
+    found = [n for n in cfg["consts"] if n not in missing]
+    if found:
+        all_imports.append(cfg["imports"])
+
+# Handle DEST_IMAGES separately (short name — extract after DEST_IMAGES_GALLERY)
+print("   Extracting DEST_IMAGES...")
+block, src = extract(src, "DEST_IMAGES")
+if block and len(block) > 500:
+    block = re.sub(r'^const DEST_IMAGES\b', 'export const DEST_IMAGES', block, flags=re.MULTILINE)
+    # Append to images.js
+    with open("src/data/images.js", "a", encoding="utf-8") as f:
+        f.write("\n\n" + block.strip() + "\n")
+    # Update the import line
+    for i, imp in enumerate(all_imports):
+        if "images.js" in imp:
+            all_imports[i] = imp.replace(
+                "} from './data/images.js'",
+                ", DEST_IMAGES } from './data/images.js'"
+            ).replace("{ ,", "{")  # clean up if leading comma
+    print(f"   ✓  DEST_IMAGES appended to images.js\n")
+else:
+    print("   ⚠  DEST_IMAGES not extracted\n")
+
+# ─────────────────────────────────────────────────────────────────
+# Patch App.jsx: update React import + add all data imports
+# ─────────────────────────────────────────────────────────────────
+print("📝 Patching App.jsx...")
+
+NEW_HEADER = (
+    'import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";\n\n'
+    '// ── Static data (extracted for cleaner code & bundle splitting) ─────────\n'
+    + "\n".join(all_imports)
+    + "\n// ──────────────────────────────────────────────────────────────────────\n"
+)
+
+# Replace the old React import line
+src = re.sub(
+    r'import React,.*?from "react";\n',
+    NEW_HEADER,
+    src,
+    count=1
+)
+
+# Clean up any double blank lines left by extraction
+src = re.sub(r'\n{4,}', '\n\n\n', src)
+
+with open(SRC, "w", encoding="utf-8") as f:
+    f.write(src)
+
+# ─────────────────────────────────────────────────────────────────
+# Report
+# ─────────────────────────────────────────────────────────────────
+orig_lines = original.count("\n")
+new_lines  = src.count("\n")
+saved      = orig_lines - new_lines
+
+print(f"\n{'='*55}")
+print(f"✅  Extraction complete!")
+print(f"    App.jsx:  {orig_lines:,} → {new_lines:,} lines  (−{saved:,})")
+print(f"    Data:     {total_extracted:,} lines in src/data/")
+print(f"{'='*55}\n")
+print("Next steps:")
+print("  1.  npm run dev          ← check it still works")
+print("  2.  Open http://localhost:5173 and click through the app")
+print("  3.  If broken: cp src/App.jsx.pre-extract src/App.jsx && rm -rf src/data/")
+print("  4.  If working:")
+print("      git add -A && git commit -m 'Extract data into src/data/ modules' && git push")

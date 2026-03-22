@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary meta -->
+    <title>Cycling Trip Planner — Find Your Perfect Cycling Holiday</title>
+    <meta name="description" content="Find your perfect cycling holiday in 60 seconds. 458 destinations worldwide matched to your ability, terrain and dates. Hotels, routes and local tips included.">
+    <meta name="keywords" content="cycling holiday, cycling routes, cycling destinations, bike tour, road cycling, mountain biking, cycling travel, sportive, gran fondo, cycling trip planner">
+    <link rel="canonical" href="https://cycling-planner.pages.dev">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Cycling Trip Planner — Find Your Perfect Cycling Holiday">
+    <meta property="og:description" content="458 cycling destinations matched to you in 60 seconds. Hotels, routes and local tips included.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cycling-planner.pages.dev">
+    <meta property="og:image" content="https://cycling-planner.pages.dev/og-image.jpg">
+    <meta property="og:site_name" content="Cycling Trip Planner">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cycling Trip Planner">
+    <meta name="twitter:description" content="Find your perfect cycling holiday in 60 seconds — 458 destinations worldwide.">
+    <meta name="twitter:image" content="https://cycling-planner.pages.dev/og-image.jpg">
+
+    <!-- Performance -->
+    <meta name="theme-color" content="#0a0a09">
+    <link rel="preconnect" href="https://cycylingplanner.rewardspy.workers.dev">
+    <link rel="dns-prefetch" href="https://api.anthropic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴</text></svg>">
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Cycling Trip Planner",
+      "description": "Match yourself to the perfect cycling destination worldwide in 60 seconds",
+      "url": "https://cycling-planner.pages.dev",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "featureList": [
+        "458 cycling destinations worldwide",
+        "AI-matched to your ability and terrain preference",
+        "Curated hotel recommendations",
+        "Named cycling routes with distance and elevation",
+        "Local knowledge and insider tips",
+        "10 languages supported"
+      ]
+    }
+    </script>
+
+    <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your measurement ID -->
+    <!-- Get your ID at: analytics.google.com — create property for cycling-planner.pages.dev -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+
+      // Custom events — called from App.jsx
+      window.trackEvent = function(eventName, params) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', eventName, params || {});
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

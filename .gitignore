@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.env
+.wrangler/
+.env
+.env.local
+.env
+.env.local
+
+# Auto-generated fix scripts and backups
+*.pre-*
+src/*.pre-*
+fix_continent*.py
+add_continent.py
+add_google_maps.py
+swap_to_google_maps.py
+patch_all.py
+add_analytics.py
+add_seo.py
